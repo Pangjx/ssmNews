@@ -12,5 +12,3 @@ IDEA，SSM框架写的员工增删改查
 • 数据库-MySQL• 前端框架-bootstrap快速搭建简洁美观的界面
 • 项目的依赖管理-Maven• 分页-pagehelper
 • 逆向工程-MyBatis Generat
-
-本人在编写过程中遇到的错误都写在了博客上面，欢迎查看：https://blog.csdn.net/qq_41548307
