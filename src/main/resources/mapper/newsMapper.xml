@@ -73,7 +73,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    newsID, newsTitle, newsDate, newsDesc, newsImagePath, newsRate, newsIsCheck, newsIsTop
+    newsID, newsTitle,newsContent,newsDate, newsDesc, newsImagePath, newsRate, newsIsCheck, newsIsTop
   </sql>
   <sql id="Blob_Column_List">
     newsContent

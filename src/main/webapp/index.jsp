@@ -84,37 +84,33 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">员工添加</h4>
+                <h4 class="modal-title" id="myModalLabel">编辑新闻</h4>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal">
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">empName</label>
+                        <label class="col-sm-2 control-label">标题</label>
                         <div class="col-sm-10">
-                            <input type="text" name="empName" class="form-control" id="empName_add_input" placeholder="empName">
+                            <input type="text" name="newsTitle" class="form-control" id="empName_add_input" placeholder="empName">
                             <span class="help-block"></span>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">email</label>
+                        <label class="col-sm-2 control-label">内容</label>
                         <div class="col-sm-10">
-                            <input type="text" name="email" class="form-control" id="email_add_input" placeholder="email@atguigu.com">
+                            <input type="text" name="newsContent" class="form-control" id="email_add_input" placeholder="email@atguigu.com">
                             <span class="help-block"></span>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">gender</label>
+                        <label class="col-sm-2 control-label">时间</label>
                         <div class="col-sm-10">
-                            <label class="radio-inline">
-                                <input type="radio" name="gender" id="gender1_add_input" value="M" checked="checked"> 男
-                            </label>
-                            <label class="radio-inline">
-                                <input type="radio" name="gender" id="gender2_add_input" value="F"> 女
-                            </label>
+                            <input type="text" name="newsDate" class="form-control" id=“data_add_input" placeholder="email@atguigu.com">
+                            <span class="help-block"></span>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">deptName</label>
+                        <label class="col-sm-2 control-label">描述</label>
                         <div class="col-sm-4">
                             <!-- 部门提交部门id即可 -->
                             <select class="form-control" name="dId">
@@ -156,11 +152,11 @@
                     <th>
                         <input type="checkbox" id="check_all"/>
                     </th>
-                    <th>#</th>
-                    <th>empName</th>
-                    <th>gender</th>
-                    <th>email</th>
-                    <th>deptName</th>
+                    <th>序号</th>
+                    <th>标题</th>
+                    <th>内容</th>
+                    <th>时间</th>
+                    <th>描述</th>
                     <th>操作</th>
                 </tr>
                 </thead>
@@ -212,13 +208,15 @@
         //清空table表格
         $("#emps_table tbody").empty();
         var emps = result.extend.pageInfo.list;
+        console.log(emps);
         $.each(emps,function(index,item){
-            var newsID = $("<td><input type='checkbox' class='check_item'/></td>");
-            var newsTitle = $("<td></td>").append(item.newsTitile);
-            var newsContent = $("<td></td>").append(item.newsContent);
-            var newsDate = $("<td></td>").append(item.newsDate);
-            var newsDesc = $("<td></td>").append(item.newsDesc);
-            var newsImagePath = $("<td></td>").append(item.newsImagePath);
+            var checkBoxTd = $("<td><input type='checkbox' class='check_item'/></td>");
+            var newsID = $("<td></td>").append(item.newsid);
+            var newsTitle = $("<td></td>").append(item.newstitle);
+            var newsContent = $("<td></td>").append(item.newscontent);
+            var newsDate = $("<td></td>").append(item.newsdate);
+            var newsDesc = $("<td></td>").append(item.newsdesc);
+            var newsImagePath = $("<td></td>").append(item.newsimagepath);
             /**
              <button class="">
              <span class="" aria-hidden="true"></span>
@@ -237,11 +235,11 @@
             //var delBtn =
             //append方法执行完成以后还是返回原来的元素
             $("<tr></tr>").append(checkBoxTd)
-                .append(newsTitile)
+                .append(newsID)
+                .append(newsTitle)
                 .append(newsContent)
                 .append(newsDate)
                 .append(newsDesc)
-                .append(newsImagePath)
                 .append(btnTd)
                 .appendTo("#emps_table tbody");
         });
@@ -373,21 +371,21 @@
             show_validate_msg("#empName_add_input", "success", "");
         };
 
-        //2、校验邮箱信息
-        var email = $("#email_add_input").val();
-        var regEmail = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
-        if(!regEmail.test(email)){
-            //alert("邮箱格式不正确");
-            //应该清空这个元素之前的样式
-            show_validate_msg("#email_add_input", "error", "邮箱格式不正确");
-            /* $("#email_add_input").parent().addClass("has-error");
-            $("#email_add_input").next("span").text("邮箱格式不正确"); */
-            return false;
-        }else{
-            show_validate_msg("#email_add_input", "success", "");
-        }
-        return true;
-    }
+    //     //2、校验邮箱信息
+    //     var email = $("#email_add_input").val();
+    //     var regEmail = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
+    //     if(!regEmail.test(email)){
+    //         //alert("邮箱格式不正确");
+    //         //应该清空这个元素之前的样式
+    //         show_validate_msg("#email_add_input", "error", "邮箱格式不正确");
+    //         /* $("#email_add_input").parent().addClass("has-error");
+    //         $("#email_add_input").next("span").text("邮箱格式不正确"); */
+    //         return false;
+    //     }else{
+    //         show_validate_msg("#email_add_input", "success", "");
+    //     }
+    //     return true;
+     }
 
     //显示校验结果的提示信息
     function show_validate_msg(ele,status,msg){
