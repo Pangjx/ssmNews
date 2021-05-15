@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssmcrud.dao.newsMapper">
+  <resultMap id="BaseResultMap" type="com.ssmcrud.bean.news">
+    <id column="newsID" jdbcType="INTEGER" property="newsid" />
+    <result column="newsTitle" jdbcType="VARCHAR" property="newstitle" />
+    <result column="newsDate" jdbcType="TIMESTAMP" property="newsdate" />
+    <result column="newsDesc" jdbcType="VARCHAR" property="newsdesc" />
+    <result column="newsImagePath" jdbcType="VARCHAR" property="newsimagepath" />
+    <result column="newsRate" jdbcType="INTEGER" property="newsrate" />
+    <result column="newsIsCheck" jdbcType="BIT" property="newsischeck" />
+    <result column="newsIsTop" jdbcType="BIT" property="newsistop" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.ssmcrud.bean.news">
+    <result column="newsContent" jdbcType="LONGVARCHAR" property="newscontent" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    newsID, newsTitle, newsDate, newsDesc, newsImagePath, newsRate, newsIsCheck, newsIsTop
+  </sql>
+  <sql id="Blob_Column_List">
+    newsContent
+  </sql>
+
+  <select id="getAllNews" resultType="com.ssmcrud.bean.news">
+    select
+    <include refid="Base_Column_List" />
+    from news
+  </select>
+
+  <select id="selectByExampleWithBLOBs" parameterType="com.ssmcrud.bean.newsExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from news
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.ssmcrud.bean.newsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from news
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from news
+    where newsID = #{newsid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from news
+    where newsID = #{newsid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ssmcrud.bean.newsExample">
+    delete from news
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ssmcrud.bean.news">
+    insert into news (newsID, newsTitle, newsDate, 
+      newsDesc, newsImagePath, newsRate, 
+      newsIsCheck, newsIsTop, newsContent
+      )
+    values (#{newsid,jdbcType=INTEGER}, #{newstitle,jdbcType=VARCHAR}, #{newsdate,jdbcType=TIMESTAMP}, 
+      #{newsdesc,jdbcType=VARCHAR}, #{newsimagepath,jdbcType=VARCHAR}, #{newsrate,jdbcType=INTEGER}, 
+      #{newsischeck,jdbcType=BIT}, #{newsistop,jdbcType=BIT}, #{newscontent,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ssmcrud.bean.news">
+    insert into news
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="newsid != null">
+        newsID,
+      </if>
+      <if test="newstitle != null">
+        newsTitle,
+      </if>
+      <if test="newsdate != null">
+        newsDate,
+      </if>
+      <if test="newsdesc != null">
+        newsDesc,
+      </if>
+      <if test="newsimagepath != null">
+        newsImagePath,
+      </if>
+      <if test="newsrate != null">
+        newsRate,
+      </if>
+      <if test="newsischeck != null">
+        newsIsCheck,
+      </if>
+      <if test="newsistop != null">
+        newsIsTop,
+      </if>
+      <if test="newscontent != null">
+        newsContent,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="newsid != null">
+        #{newsid,jdbcType=INTEGER},
+      </if>
+      <if test="newstitle != null">
+        #{newstitle,jdbcType=VARCHAR},
+      </if>
+      <if test="newsdate != null">
+        #{newsdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newsdesc != null">
+        #{newsdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="newsimagepath != null">
+        #{newsimagepath,jdbcType=VARCHAR},
+      </if>
+      <if test="newsrate != null">
+        #{newsrate,jdbcType=INTEGER},
+      </if>
+      <if test="newsischeck != null">
+        #{newsischeck,jdbcType=BIT},
+      </if>
+      <if test="newsistop != null">
+        #{newsistop,jdbcType=BIT},
+      </if>
+      <if test="newscontent != null">
+        #{newscontent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ssmcrud.bean.newsExample" resultType="java.lang.Long">
+    select count(*) from news
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update news
+    <set>
+      <if test="record.newsid != null">
+        newsID = #{record.newsid,jdbcType=INTEGER},
+      </if>
+      <if test="record.newstitle != null">
+        newsTitle = #{record.newstitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.newsdate != null">
+        newsDate = #{record.newsdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.newsdesc != null">
+        newsDesc = #{record.newsdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.newsimagepath != null">
+        newsImagePath = #{record.newsimagepath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.newsrate != null">
+        newsRate = #{record.newsrate,jdbcType=INTEGER},
+      </if>
+      <if test="record.newsischeck != null">
+        newsIsCheck = #{record.newsischeck,jdbcType=BIT},
+      </if>
+      <if test="record.newsistop != null">
+        newsIsTop = #{record.newsistop,jdbcType=BIT},
+      </if>
+      <if test="record.newscontent != null">
+        newsContent = #{record.newscontent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update news
+    set newsID = #{record.newsid,jdbcType=INTEGER},
+      newsTitle = #{record.newstitle,jdbcType=VARCHAR},
+      newsDate = #{record.newsdate,jdbcType=TIMESTAMP},
+      newsDesc = #{record.newsdesc,jdbcType=VARCHAR},
+      newsImagePath = #{record.newsimagepath,jdbcType=VARCHAR},
+      newsRate = #{record.newsrate,jdbcType=INTEGER},
+      newsIsCheck = #{record.newsischeck,jdbcType=BIT},
+      newsIsTop = #{record.newsistop,jdbcType=BIT},
+      newsContent = #{record.newscontent,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update news
+    set newsID = #{record.newsid,jdbcType=INTEGER},
+      newsTitle = #{record.newstitle,jdbcType=VARCHAR},
+      newsDate = #{record.newsdate,jdbcType=TIMESTAMP},
+      newsDesc = #{record.newsdesc,jdbcType=VARCHAR},
+      newsImagePath = #{record.newsimagepath,jdbcType=VARCHAR},
+      newsRate = #{record.newsrate,jdbcType=INTEGER},
+      newsIsCheck = #{record.newsischeck,jdbcType=BIT},
+      newsIsTop = #{record.newsistop,jdbcType=BIT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ssmcrud.bean.news">
+    update news
+    <set>
+      <if test="newstitle != null">
+        newsTitle = #{newstitle,jdbcType=VARCHAR},
+      </if>
+      <if test="newsdate != null">
+        newsDate = #{newsdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newsdesc != null">
+        newsDesc = #{newsdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="newsimagepath != null">
+        newsImagePath = #{newsimagepath,jdbcType=VARCHAR},
+      </if>
+      <if test="newsrate != null">
+        newsRate = #{newsrate,jdbcType=INTEGER},
+      </if>
+      <if test="newsischeck != null">
+        newsIsCheck = #{newsischeck,jdbcType=BIT},
+      </if>
+      <if test="newsistop != null">
+        newsIsTop = #{newsistop,jdbcType=BIT},
+      </if>
+      <if test="newscontent != null">
+        newsContent = #{newscontent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where newsID = #{newsid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.ssmcrud.bean.news">
+    update news
+    set newsTitle = #{newstitle,jdbcType=VARCHAR},
+      newsDate = #{newsdate,jdbcType=TIMESTAMP},
+      newsDesc = #{newsdesc,jdbcType=VARCHAR},
+      newsImagePath = #{newsimagepath,jdbcType=VARCHAR},
+      newsRate = #{newsrate,jdbcType=INTEGER},
+      newsIsCheck = #{newsischeck,jdbcType=BIT},
+      newsIsTop = #{newsistop,jdbcType=BIT},
+      newsContent = #{newscontent,jdbcType=LONGVARCHAR}
+    where newsID = #{newsid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ssmcrud.bean.news">
+    update news
+    set newsTitle = #{newstitle,jdbcType=VARCHAR},
+      newsDate = #{newsdate,jdbcType=TIMESTAMP},
+      newsDesc = #{newsdesc,jdbcType=VARCHAR},
+      newsImagePath = #{newsimagepath,jdbcType=VARCHAR},
+      newsRate = #{newsrate,jdbcType=INTEGER},
+      newsIsCheck = #{newsischeck,jdbcType=BIT},
+      newsIsTop = #{newsistop,jdbcType=BIT}
+    where newsID = #{newsid,jdbcType=INTEGER}
+  </update>
+</mapper>
