@@ -1,5 +1,8 @@
 package com.ssmcrud.bean;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 public class news {
@@ -7,6 +10,11 @@ public class news {
 
     private String newstitle;
 
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING,
+            pattern = "yyyy-MM-dd HH:mm:ss",
+            timezone = "GMT+8")
     private Date newsdate;
 
     private String newsdesc;
@@ -22,6 +30,21 @@ public class news {
     private String newscontent;
 
     public news() {
+    }
+
+    @Override
+    public String toString() {
+        return "news{" +
+                "newsid=" + newsid +
+                ", newstitle='" + newstitle + '\'' +
+                ", newsdate=" + newsdate +
+                ", newsdesc='" + newsdesc + '\'' +
+                ", newsimagepath='" + newsimagepath + '\'' +
+                ", newsrate=" + newsrate +
+                ", newsischeck=" + newsischeck +
+                ", newsistop=" + newsistop +
+                ", newscontent='" + newscontent + '\'' +
+                '}';
     }
 
     public news(Integer newsid, String newstitle, Date newsdate, String newsdesc, String newsimagepath, Integer newsrate, Boolean newsischeck, Boolean newsistop, String newscontent) {

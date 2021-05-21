@@ -1,5 +1,6 @@
 package com.ssmcrud;
 
+import com.ssmcrud.bean.Department;
 import com.ssmcrud.bean.Employee;
 import com.ssmcrud.bean.news;
 import com.ssmcrud.dao.newsMapper;
@@ -54,9 +55,10 @@ public class MapperTest {
 
         //1,插入几个部门
 
-     /*   departmentMapper.insertSelective(new Department(null,"开发部"));
-        departmentMapper.insertSelective(new Department(null,"测试部"));
-    */
+//     /*   departmentMapper.insertSelective(new Department(null,"开发部"));
+        newsmapper.insertSelective(new news(null, "321",new java.sql.Date(new Date().getTime()), "无",
+                null, null, null, null, "从这里编辑内容"));
+
 
      //2,生成员工数据，测试员工插入
 /*
@@ -70,13 +72,13 @@ public class MapperTest {
 
         }*/
 
-        newsMapper mapper = sqlSession.getMapper(newsMapper.class);
-        Date date=new Date();
-        java.sql.Date sqlDate=new java.sql.Date(date.getTime());
-        for(int i=0;i<200;i++){
-            String uid = UUID.randomUUID().toString().substring(0,5)+i;
-            mapper.insertSelective(new news(uid,sqlDate,"无","本地路径",1,false,false,"**************"));
-        }
-        System.out.println("批量添加员工成功");
+//        newsMapper mapper = sqlSession.getMapper(newsMapper.class);
+//        Date date=new Date();
+//        java.sql.Date sqlDate=new java.sql.Date(date.getTime());
+//        for(int i=0;i<200;i++){
+//            String uid = UUID.randomUUID().toString().substring(0,5)+i;
+//            mapper.insertSelective(new news(uid,sqlDate,"无","本地路径",1,false,false,"**************"));
+//        }
+//        System.out.println("批量添加员工成功");
     }
 }
